@@ -16,8 +16,13 @@ module.exports = function (server) {
     openApi.get('/ip/summary', MeuipController.summary);
     openApi.get('/ip/contador', MeuipController.contador);
 
-    const PlaycardController = require('../controllers/General/PlaycardController');
+    const PlaycardController = require('../controllers/Playcards/PlaycardController');
     openApi.post('/play/update', PlaycardController.update);
     openApi.post('/play/find', PlaycardController.find);
+
+    const PlaycardStatController = require('../controllers/Playcards/PlaycardStatController');
+    openApi.post('/playstat/create', PlaycardStatController.create);
+    openApi.post('/playstat/fim', PlaycardStatController.fim);
+
 }
 

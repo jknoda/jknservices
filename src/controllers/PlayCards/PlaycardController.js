@@ -1,4 +1,4 @@
-const PC = require('../../models/General/Playcard');
+const PC = require('../../models/Playcards/Playcard');
 const errDB = require('../../common/_sendErrorsDB');
 
 module.exports = {
