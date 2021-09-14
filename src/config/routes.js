@@ -16,7 +16,7 @@ module.exports = function (server) {
     openApi.get('/ip/summary', MeuipController.summary);
     openApi.get('/ip/contador', MeuipController.contador);
 
-    const PlaycardController = require('../controllers/Playcards/PlaycardController');
+    const PlaycardController = require('../controllers/PlayCards/PlaycardController')
     openApi.post('/play/update', PlaycardController.update);
     openApi.post('/play/find', PlaycardController.find);
 
