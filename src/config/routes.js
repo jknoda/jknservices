@@ -20,7 +20,7 @@ module.exports = function (server) {
     openApi.post('/play/update', PlaycardController.update);
     openApi.post('/play/find', PlaycardController.find);
 
-    const PlaycardStatController = require('../controllers/Playcards/PlaycardStatController');
+    const PlaycardStatController = require('../controllers/PlayCards/PlaycardStatController');
     openApi.post('/playstat/create', PlaycardStatController.create);
     openApi.post('/playstat/fim', PlaycardStatController.fim);
 
