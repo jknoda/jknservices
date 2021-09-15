@@ -18,7 +18,8 @@ module.exports = {
             rodada = 0;
         }).finally(()=>{
             rodada++;
-            PCCtrlStat.create({idf, rodada, data})
+            const ptoa = ptob = asa = asb = ala = alb = csa = csb = cla = clb = rla = rlb = rsa = rsb = mortoa = mortob = batidaa = batidab = 0;
+            PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, rla, rlb, rsa, rsb, mortoa, mortob, batidaa, batidab, data})
             .catch(function(err){
                 return errDB(res,err);
             });
@@ -28,7 +29,7 @@ module.exports = {
 
     async update(req,res){
         const {idf, rodada, dupla, tipo, valor} = req.body;
-        const campo = tipo + dupla;
+        const campo = "`" + tipo + dupla + "`";
         //console.log(req.body,campo);
         const sql = `
             UPDATE playcardctrlstat
