@@ -20,9 +20,14 @@ module.exports = function (server) {
     openApi.post('/play/update', PlaycardController.update);
     openApi.post('/play/find', PlaycardController.find);
 
-    const PlaycardStatController = require('../controllers/PlayCards/PlaycardStatController');
-    openApi.post('/playstat/create', PlaycardStatController.create);
-    openApi.post('/playstat/fim', PlaycardStatController.fim);
+    const PlaycardCtrlController = require('../controllers/PlayCards/PlaycardCtrlController');
+    openApi.post('/playctrl/create', PlaycardCtrlController.create);
+    openApi.post('/playctrl/fim', PlaycardCtrlController.fim);
+
+    const PlaycardCtrlStatController = require('../controllers/PlayCards/PlaycardCtrlStatController');
+    openApi.post('/playctrlstat/create', PlaycardCtrlStatController.create);
+    openApi.post('/playctrlstat/atualizar', PlaycardCtrlStatController.update);
+    //openApi.post('/playctrlstat/teste', PlaycardCtrlStatController.teste);
 
 }
 

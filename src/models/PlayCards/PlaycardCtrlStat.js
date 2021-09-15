@@ -16,79 +16,84 @@ class PlaycardCtrlStat extends Model {
             ptoa: {
                 type: DataTypes.INTEGER,
                 allowNull: true
-            },
+            } ,
             ptob: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            as_a: {
+            asa: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            as_b: {
+            asb: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            al_a: {
+            ala: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            al_b: {
+            alb: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            cs_a: {
+            csa: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            cs_b: {
+            csb: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            cl_a: {
+            cla: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            cl_b: {
+            clb: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            rl_a: {
+            rla: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            rl_b: {
+            rlb: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            rs_a: {
+            rsa: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            rs_b: {
+            rsb: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            morto_a: {
+            mortoa: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            morto_b: {
+            mortob: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            batida_a: {
+            batidaa: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            batida_b: {
+            batidab: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
             obs: {
                 type: DataTypes.STRING,
                 allowNull: true
+            },
+            data: {
+                type: DataTypes.DATE,
+                allowNull: true
             }
+
         }, {
             sequelize,
             tableName: 'playcardctrlstat'
