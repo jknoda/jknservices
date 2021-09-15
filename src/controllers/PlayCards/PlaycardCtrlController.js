@@ -27,7 +27,7 @@ module.exports = {
         });
     },
 
-    async fim(req,res){
+    async end(req,res){
         const {idf, placara, placarb, obs} = req.body;
         const fim = new Date();
         await PCCtrl.update({ fim, placara, placarb, obs },{where : { idf }}

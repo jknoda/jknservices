@@ -14,6 +14,8 @@ module.exports = {
             order: [[ 'rodada', 'DESC' ]]
         }).then((data)=>{
             rodada = data.rodada;
+        }).catch(function(err){
+            rodada = 0;
         }).finally(()=>{
             rodada++;
             PCCtrlStat.create({idf, rodada, data})
