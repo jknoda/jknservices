@@ -5,26 +5,15 @@ const { QueryTypes } = require('sequelize');
 
 module.exports = {
     async create(req,res){
-        const {idf} = req.body;
-        var rodada = 0;
+        const {idf, rodada} = req.body;
         const data = new Date();
-        await PCCtrlStat.findOne({
-            attributes: ['rodada'],
-            where: idf,
-            order: [[ 'rodada', 'DESC' ]]
-        }).then((data)=>{
-            rodada = data.rodada;
-        }).catch(function(err){
-            rodada = 0;
-        }).finally(()=>{
-            rodada++;
-            const ptoa = ptob = asa = asb = ala = alb = csa = csb = cla = clb = rla = rlb = rsa = rsb = mortoa = mortob = batidaa = batidab = 0;
-            PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, rla, rlb, rsa, rsb, mortoa, mortob, batidaa, batidab, data})
-            .catch(function(err){
-                return errDB(res,err);
-            });
+        const ptoa = ptob = asa = asb = ala = alb = csa = csb = cla = clb = rla = rlb = rsa = rsb = mortoa = mortob = batidaa = batidab = 0;
+        console.log("nova rodada");
+        await PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, rla, rlb, rsa, rsb, mortoa, mortob, batidaa, batidab, data})
+        .catch(function(err){
+            return errDB(res,err);
         });
-        return res.json(rodada);
+        return res.json("Ok");
     },
 
     async update(req,res){
