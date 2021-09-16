@@ -28,19 +28,10 @@ module.exports = {
         });
     },
 
-    async inicial(req,res){
-        const {idf, inicial} = req.body;
-        await PCCtrl.update({ inicial },{where : { idf }}
-        ).catch(function(err){
-            return errDB(res,err);
-        });
-        return res.json("ok");
-    },
-
     async end(req,res){
-        const {idf, placara, placarb, obs} = req.body;
+        const {idf, inicial, placara, placarb, obs} = req.body;
         const fim = new Date();
-        await PCCtrl.update({ fim, placara, placarb, obs },{where : { idf }}
+        await PCCtrl.update({ inicial, fim, placara, placarb, obs },{where : { idf }}
         ).catch(function(err){
             return errDB(res,err);
         });
