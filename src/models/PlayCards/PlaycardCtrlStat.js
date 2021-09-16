@@ -69,6 +69,22 @@ class PlaycardCtrlStat extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
+            vula: {
+                type: DataTypes.INTEGER,
+                allowNull: true
+            },
+            vulb: {
+                type: DataTypes.INTEGER,
+                allowNull: true
+            },
+            vulptoa: {
+                type: DataTypes.INTEGER,
+                allowNull: true
+            },
+            vulptob: {
+                type: DataTypes.INTEGER,
+                allowNull: true
+            },
             mortoa: {
                 type: DataTypes.INTEGER,
                 allowNull: true

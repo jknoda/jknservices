@@ -9,7 +9,7 @@ module.exports = {
         const data = new Date();
         const ptoa = ptob = asa = asb = ala = alb = csa = csb = cla = clb = rla = rlb = rsa = rsb = mortoa = mortob = batidaa = batidab = 0;
         console.log("nova rodada");
-        await PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, rla, rlb, rsa, rsb, mortoa, mortob, batidaa, batidab, data})
+        await PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, rla, rlb, rsa, rsb, vula, vulb, vulptoa, vulptob, mortoa, mortob, batidaa, batidab, data})
         .catch(function(err){
             return errDB(res,err);
         });
