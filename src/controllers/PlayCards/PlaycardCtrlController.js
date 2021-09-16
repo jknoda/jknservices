@@ -30,7 +30,6 @@ module.exports = {
 
     async inicial(req,res){
         const {idf, inicial} = req.body;
-        console.log("inicial:",req.body);
         await PCCtrl.update({ inicial },{where : { idf }}
         ).catch(function(err){
             return errDB(res,err);
