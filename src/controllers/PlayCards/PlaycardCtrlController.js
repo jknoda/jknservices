@@ -46,36 +46,4 @@ module.exports = {
         });
         return res.json("ok");
     }
-    
-    /*,
-
-    async vitorias(req,res){
-        const {avatar} = req.body;
-        const retorno = await PC.count({
-            where:{ 
-                    [Op.and]:[
-                        {avatar:avatar},
-                        sequelize.literal("placarnos > placareles")
-                    ]
-                }
-            }).catch(function(err){
-            return errDB(res,err);
-        });
-        return res.json(retorno);
-    },
-    async derrotas(req,res){
-        const {avatar} = req.body;
-        const retorno = await PC.count({
-            where:{ 
-                    [Op.and]:[
-                        {avatar:avatar},
-                        sequelize.literal("placarnos < placareles")
-                    ]
-                }
-            }).catch(function(err){
-            return errDB(res,err);
-        });
-        return res.json(retorno);
-    }
-    */
 }
