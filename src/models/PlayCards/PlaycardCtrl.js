@@ -12,10 +12,6 @@ class PlaycardStat extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            jogadorinicial: {
-                type: DataTypes.INTEGER,
-                allowNull: true
-            },
             sala: {
                 type: DataTypes.STRING,
                 allowNull: true

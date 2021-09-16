@@ -5,7 +5,7 @@ const {Op} = require("sequelize");
 
 module.exports = {
     async create(req,res){
-        const {criador,jogadorinicial,sala,ava01,ava02,avb01,avb02,joga01,joga02,jogb01,jogb02} = req.body;
+        const {criador,sala,ava01,ava02,avb01,avb02,joga01,joga02,jogb01,jogb02} = req.body;
         const inicio = new Date();
         const fim = inicio;
         const placara = 0;
@@ -19,7 +19,7 @@ module.exports = {
             idf = data.idf;
         }).finally(()=>{
             idf++;
-            PCCtrl.create({idf,criador,jogadorinicial,sala,ava01,ava02,avb01,avb02,joga01,joga02,jogb01,jogb02,inicio,fim,placara,placarb,obs})
+            PCCtrl.create({idf,criador,sala,ava01,ava02,avb01,avb02,joga01,joga02,jogb01,jogb02,inicio,fim,placara,placarb,obs})
             .catch(function(err){
                 return errDB(res,err);
             });
