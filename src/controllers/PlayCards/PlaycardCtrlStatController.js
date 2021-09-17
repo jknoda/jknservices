@@ -25,7 +25,6 @@ module.exports = {
             SET ${campo} = ${campo} + ${valor}
             WHERE idf = ${idf} AND rodada = ${rodada}; 
         `;
-        //console.log(sql);
         PCCtrlStat.sequelize.query(sql, {
             type: sequelize.QueryTypes.UPDATE
         }).catch(function(err){
