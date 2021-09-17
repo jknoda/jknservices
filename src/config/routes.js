@@ -8,6 +8,9 @@ module.exports = function (server) {
     const openApi = express.Router();
     server.use('/oapi', openApi);
 
+    const TesteController = require('../controllers/General/TesteController');
+    openApi.get('/teste', TesteController.teste);
+
     const EmpresaController = require('../controllers/Empresa/EmpresaController');
     openApi.get('/empresas', EmpresaController.findAll);
 
