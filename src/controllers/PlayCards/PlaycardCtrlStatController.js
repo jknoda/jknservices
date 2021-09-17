@@ -19,7 +19,7 @@ module.exports = {
     async update(req,res){
         const {idf, rodada, dupla, tipo, valor} = req.body;
         const campo = "`" + tipo + dupla + "`";
-        //console.log(req.body,campo);
+        console.log(req.body,campo);
         const sql = `
             UPDATE playcardctrlstat
             SET ${campo} = ${campo} + ${valor}
