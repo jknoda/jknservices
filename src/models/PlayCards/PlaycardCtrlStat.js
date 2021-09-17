@@ -101,8 +101,8 @@ class PlaycardCtrlStat extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            obs: {
-                type: DataTypes.STRING,
+            recall: {
+                type: DataTypes.INTEGER,
                 allowNull: true
             },
             data: {

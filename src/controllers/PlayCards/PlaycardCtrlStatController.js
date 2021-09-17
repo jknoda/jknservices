@@ -7,9 +7,9 @@ module.exports = {
     async create(req,res){
         const {idf, rodada} = req.body;
         const data = new Date();
-        const ptoa = ptob = asa = asb = ala = alb = csa = csb = cla = clb = rla = rlb = rsa = rsb = vula = vulb = vulptoa = vulptob = mortoa = mortob = batidaa = batidab = 0;
-        console.log("nova rodada");
-        await PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, rla, rlb, rsa, rsb, vula, vulb, vulptoa, vulptob, mortoa, mortob, batidaa, batidab, data})
+        const ptoa = ptob = asa = asb = ala = alb = csa = csb = cla = clb = rla = rlb = rsa = rsb = vula = vulb = vulptoa = vulptob = mortoa = mortob = batidaa = batidab = recall = 0;
+        //console.log("nova rodada");
+        await PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, rla, rlb, rsa, rsb, vula, vulb, vulptoa, vulptob, mortoa, mortob, batidaa, batidab, recall, data})
         .catch(function(err){
             return errDB(res,err);
         });
