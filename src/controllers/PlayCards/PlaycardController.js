@@ -5,9 +5,7 @@ module.exports = {
     async update(req,res){
         const {sala,dados,jogador} = req.body;
         const data = new Date();
-
         //console.log(JSON.stringify(req.body));
-
         await PC.create({ sala, data, dados, jogador })
         .catch(function(err){
             PC.update({ data, dados, jogador },{where : { sala }}
