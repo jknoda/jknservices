@@ -5,7 +5,7 @@ const { QueryTypes } = require('sequelize');
 
 module.exports = {
     async findallstat(req,res){
-        const {jogador} = req.body;
+        const {jogador, ano, mesini, mesfim} = req.body;
         const sql = `
         SELECT * FROM
             (SELECT CT.idf, ST.rodada,
@@ -30,7 +30,8 @@ module.exports = {
                 END) AS njog
             FROM playcardctrl AS CT
             INNER JOIN playcardctrlstat AS ST ON CT.idf = ST.idf
-            WHERE CT.ava01 = ${jogador} OR CT.ava02 = ${jogador}) AS JOGA
+            WHERE CT.inicial > 0 AND CT.ava01 = ${jogador} OR CT.ava02 = ${jogador}
+            AND YEAR(ST.data) = ${ano} AND MONTH(ST.data) >= ${mesini} AND MONTH(ST.data) <= ${mesfim}) AS JOGA
         UNION
             (SELECT CT.idf, ST.rodada,
                 CT.placara, CT.placarb, 
@@ -54,7 +55,8 @@ module.exports = {
                 END) AS njog        
             FROM playcardctrl AS CT
             INNER JOIN playcardctrlstat AS ST ON CT.idf = ST.idf
-            WHERE CT.avb01 = ${jogador} OR CT.avb02 = ${jogador})
+            WHERE CT.inicial > 0 AND CT.avb01 = ${jogador} OR CT.avb02 = ${jogador}
+            AND YEAR(ST.data) = ${ano} AND MONTH(ST.data) >= ${mesini} AND MONTH(ST.data) <= ${mesfim})
         `;
         retorno = await PCGeral.sequelize.query(sql, {
             type: sequelize.QueryTypes.SELECT
