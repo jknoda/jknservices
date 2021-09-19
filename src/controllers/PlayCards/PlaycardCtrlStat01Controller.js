@@ -57,6 +57,7 @@ module.exports = {
             INNER JOIN playcardctrlstat AS ST ON CT.idf = ST.idf
             WHERE CT.inicial > 0 AND CT.avb01 = ${jogador} OR CT.avb02 = ${jogador}
             AND YEAR(ST.data) = ${ano} AND MONTH(ST.data) >= ${mesini} AND MONTH(ST.data) <= ${mesfim})
+            ORDER BY idf, rodada
         `;
         retorno = await PCGeral.sequelize.query(sql, {
             type: sequelize.QueryTypes.SELECT
