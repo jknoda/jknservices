@@ -61,5 +61,44 @@ module.exports = {
             return errDB(res,err);
         });
         return res.json(retorno);
+    },
+
+    async findlastgame(req,res){
+        let {jogador, parceiro} = req.body;
+        var sqlAux = "";
+        if (jogador == 0 || parceiro == 0 || jogador == parceiro){
+            if (parceiro != 0){
+                jogador = parceiro;
+            }
+            parceiro = 0;
+            sqlAux = `
+                AND (ava01 = ${jogador} OR ava02 = ${jogador} OR avb01 = ${jogador} OR avb02 = ${jogador})
+            `;
+        }
+        else
+        {
+            sqlAux = `
+                AND ((ava01 = ${jogador} AND ava02 = ${parceiro}) OR (ava01 = ${parceiro} AND ava02 = ${jogador}))
+                OR ((avb01 = ${jogador} AND avb02 = ${parceiro}) OR (avb01 = ${parceiro} AND avb02 = ${jogador}))
+            `
+        }
+        const sql = `
+            SELECT *
+            FROM playcardctrl AS CT
+            WHERE inicial > 0
+            ${sqlAux}
+            ORDER BY idf DESC
+            LIMIT 1;
+        `;
+        retorno = await PCCtrl.sequelize.query(sql, {
+            type: sequelize.QueryTypes.SELECT
+        }).catch(function(err){
+            return errDB(res,err);
+        });
+        return res.json(retorno);
     }
+
+
+
+
 }
