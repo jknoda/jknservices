@@ -5,7 +5,39 @@ const { QueryTypes } = require('sequelize');
 
 module.exports = {
     async findallstat(req,res){
-        const {jogador, ano, mesini, mesfim} = req.body;
+        const {ano, mesini, mesfim} = req.body;
+        var jogador = req.body.jogador;
+        var parceiro = req.body.parceiro;
+        if (jogador == 0 || jogador == parceiro){
+            // para ajustar campo njog => njog é sempre em relação ao 'jogador'
+            jogador = parceiro;
+            parceiro = 0;
+        }
+        let sqlAuxA = '';
+        let sqlAuxB = '';
+        if (parceiro == 0){
+            sqlAuxA = `
+            CT.ava01 = ${jogador} OR CT.ava02 = ${jogador}
+            `;
+            sqlAuxB = `
+            CT.avb01 = ${jogador} OR CT.avb02 = ${jogador}
+            `;
+        }
+        else{
+            sqlAuxA = `
+                (
+                    (CT.ava01 = ${jogador} AND CT.ava02 = ${parceiro})
+                    OR (CT.ava01 = ${parceiro} AND CT.ava02 = ${jogador})
+                )
+            `;
+            sqlAuxB = `
+                (
+                    (CT.avb01 = ${jogador} AND CT.avb02 = ${parceiro})
+                    OR (CT.avb01 = ${parceiro} AND CT.avb02 = ${jogador})
+                )
+            `;
+
+        }
         const sql = `
         SELECT * FROM
             (SELECT CT.idf, ST.rodada,
@@ -30,7 +62,8 @@ module.exports = {
                 END) AS njog
             FROM playcardctrl AS CT
             INNER JOIN playcardctrlstat AS ST ON CT.idf = ST.idf
-            WHERE CT.inicial > 0 AND CT.ava01 = ${jogador} OR CT.ava02 = ${jogador}
+            WHERE CT.inicial > 0 
+            AND ${sqlAuxA}
             AND YEAR(ST.data) = ${ano} AND MONTH(ST.data) >= ${mesini} AND MONTH(ST.data) <= ${mesfim}) AS JOGA
         UNION
             (SELECT CT.idf, ST.rodada,
@@ -55,7 +88,8 @@ module.exports = {
                 END) AS njog        
             FROM playcardctrl AS CT
             INNER JOIN playcardctrlstat AS ST ON CT.idf = ST.idf
-            WHERE CT.inicial > 0 AND CT.avb01 = ${jogador} OR CT.avb02 = ${jogador}
+            WHERE CT.inicial > 0 
+            AND ${sqlAuxB}
             AND YEAR(ST.data) = ${ano} AND MONTH(ST.data) >= ${mesini} AND MONTH(ST.data) <= ${mesfim})
             ORDER BY idf, rodada
         `;

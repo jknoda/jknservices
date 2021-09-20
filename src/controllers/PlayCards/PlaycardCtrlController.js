@@ -2,6 +2,7 @@ const PCCtrl = require('../../models/PlayCards/PlaycardCtrl');
 const errDB = require('../../common/_sendErrorsDB');
 const sequelize = require("sequelize");
 const {Op} = require("sequelize");
+const { QueryTypes } = require('sequelize');
 
 module.exports = {
     async create(req,res){
@@ -36,5 +37,29 @@ module.exports = {
             return errDB(res,err);
         });
         return res.json("ok");
+    },
+
+    async findname(req,res){
+        const {jogador} = req.body;
+        const sql = `
+            SELECT 
+            CASE 
+                WHEN ava01 = ${jogador} THEN joga01 
+                WHEN ava02 = ${jogador} THEN joga02
+                WHEN avb01 = ${jogador} THEN jogb01
+                WHEN avb02 = ${jogador} THEN jogb02
+            END AS nome
+            FROM playcardctrl
+            WHERE (ava01 = ${jogador} OR ava02 = ${jogador} OR avb01 = ${jogador} OR avb02 = ${jogador})
+            AND inicial > 0
+            ORDER BY idf DESC
+            LIMIT 1;
+        `;
+        retorno = await PCCtrl.sequelize.query(sql, {
+            type: sequelize.QueryTypes.SELECT
+        }).catch(function(err){
+            return errDB(res,err);
+        });
+        return res.json(retorno);
     }
 }
