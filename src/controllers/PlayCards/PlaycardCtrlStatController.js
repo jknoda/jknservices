@@ -31,6 +31,21 @@ module.exports = {
             return errDB(res,err);
         });
         return res.json("ok");
+    },
+
+    async findall(req,res){
+        const{idf, ordem} = req.body;
+        retorno = await PCCtrlStat.findAll({
+            where: {
+              idf
+            },
+            order: [
+                ['rodada', ordem] 
+            ]
+        }).catch(function(err){
+            return errDB(res,err);
+        });
+        return res.json(retorno);
     }
     
 
