@@ -38,5 +38,8 @@ module.exports = function (server) {
     const PlaycardCtrlStat01Controller = require('../controllers/PlayCards/PlaycardCtrlStat01Controller');
     openApi.post('/playctrlstat/findallstat', PlaycardCtrlStat01Controller.findallstat);
 
+    const PlaycardCtrlStat02Controller = require('../controllers/PlayCards/PlaycardCtrlStat02Controller');
+    openApi.post('/playctrlstat/findallind', PlaycardCtrlStat02Controller.findallind);
+    openApi.post('/playctrlstat/findind', PlaycardCtrlStat02Controller.findind);
 }
 
