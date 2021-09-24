@@ -137,7 +137,8 @@ module.exports = {
                 AVG(j_cs) AS j_cs,
                 AVG(j_cl) AS j_cl,
                 AVG(j_rs) AS j_rs,
-                AVG(j_rl) AS j_rl
+                AVG(j_rl) AS j_rl,
+                AVG(j_jogadas) AS j_jogadas
             FROM
             (
             SELECT * FROM(SELECT 
