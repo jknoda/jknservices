@@ -52,6 +52,12 @@ module.exports = {
                     WHEN (CT.placarb > CT.placara) THEN
                         (AVG(ST.rsb)+1)*1.5
                 END AS j_rs,
+                CASE
+                    WHEN (CT.placara > CT.placarb) THEN
+                        AVG(ST.jogadasa)+1
+                    WHEN (CT.placarb > CT.placara) THEN
+                        AVG(ST.jogadasb)+1
+                END AS j_jogadas,
                 "V" AS resultado
             FROM playcardctrl CT
             INNER JOIN heroku_04ffe828244e38a.playcardctrlstat ST ON CT.idf = ST.idf
@@ -66,41 +72,47 @@ module.exports = {
                         SUM(ST.ptob)
                 END AS pto,
                 CASE
-                WHEN (CT.placara > CT.placarb) THEN
+                WHEN (CT.placara < CT.placarb) THEN
                     (AVG(ST.ala)+1)*1.5
-                WHEN (CT.placarb > CT.placara) THEN
+                WHEN (CT.placarb < CT.placara) THEN
                     (AVG(ST.alb)+1)*1.5
                 END AS j_al,
                 CASE
-                    WHEN (CT.placara > CT.placarb) THEN
+                    WHEN (CT.placara < CT.placarb) THEN
                         (AVG(ST.asa)+1)*1.25
-                    WHEN (CT.placarb > CT.placara) THEN
+                    WHEN (CT.placarb < CT.placara) THEN
                         (AVG(ST.asb)+1)*1.25
                 END AS j_as,    
                 CASE
-                    WHEN (CT.placara > CT.placarb) THEN
+                    WHEN (CT.placara < CT.placarb) THEN
                         (AVG(ST.cla)+1)*2.5
-                    WHEN (CT.placarb > CT.placara) THEN
+                    WHEN (CT.placarb < CT.placara) THEN
                         (AVG(ST.clb)+1)*2.5
                 END AS j_cl,    
                 CASE
-                    WHEN (CT.placara > CT.placarb) THEN
+                    WHEN (CT.placara < CT.placarb) THEN
                         (AVG(ST.csa)+1)*2
-                    WHEN (CT.placarb > CT.placara) THEN
+                    WHEN (CT.placarb < CT.placara) THEN
                         (AVG(ST.csb)+1)*2
                 END AS j_cs, 
                 CASE
-                    WHEN (CT.placara > CT.placarb) THEN
+                    WHEN (CT.placara < CT.placarb) THEN
                         (AVG(ST.rla)+1)*1.75
-                    WHEN (CT.placarb > CT.placara) THEN
+                    WHEN (CT.placarb < CT.placara) THEN
                         (AVG(ST.rlb)+1)*1.75
                 END AS j_rl, 
                 CASE
-                    WHEN (CT.placara > CT.placarb) THEN
+                    WHEN (CT.placara < CT.placarb) THEN
                         (AVG(ST.rsa)+1)*1.5
-                    WHEN (CT.placarb > CT.placara) THEN
+                    WHEN (CT.placarb < CT.placara) THEN
                         (AVG(ST.rsb)+1)*1.5
                 END AS j_rs,
+                CASE
+                    WHEN (CT.placara < CT.placarb) THEN
+                        AVG(ST.jogadasa)+1
+                    WHEN (CT.placarb < CT.placara) THEN
+                        AVG(ST.jogadasb)+1
+                END AS j_jogadas,                
                 "D" AS resultado
             FROM heroku_04ffe828244e38a.playcardctrl CT
             INNER JOIN heroku_04ffe828244e38a.playcardctrlstat ST ON CT.idf = ST.idf
