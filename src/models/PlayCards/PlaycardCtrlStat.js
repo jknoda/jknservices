@@ -101,6 +101,14 @@ class PlaycardCtrlStat extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
+            jogadasa: {
+                type: DataTypes.INTEGER,
+                allowNull: true
+            },
+            jogadasb: {
+                type: DataTypes.INTEGER,
+                allowNull: true
+            },
             recall: {
                 type: DataTypes.INTEGER,
                 allowNull: true
