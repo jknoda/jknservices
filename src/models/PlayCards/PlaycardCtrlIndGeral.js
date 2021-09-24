@@ -64,11 +64,15 @@ class PlaycardCtrlIndGeral extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
-            cj_rsl: {
+            j_rs: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
             j_rl: {
+                type: DataTypes.INTEGER,
+                allowNull: true
+            },
+            j_jogadas: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             }

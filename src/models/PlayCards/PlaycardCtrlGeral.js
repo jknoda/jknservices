@@ -61,6 +61,10 @@ class PlaycardCtrlGeral extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },
+            jogadas: {
+                type: DataTypes.INTEGER,
+                allowNull: true
+            },
             vul: {
                 type: DataTypes.INTEGER,
                 allowNull: true

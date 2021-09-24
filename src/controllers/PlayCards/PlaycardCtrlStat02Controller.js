@@ -212,7 +212,7 @@ module.exports = {
                         (ROUND(AVG(ST.rlb),0)+1)*1.75
                     ELSE
                         0
-                END AS j_rl
+                END AS j_rl,
                 CASE 
                     WHEN ava01 = ${jogador} OR ava02 = ${jogador} THEN 
                         ROUND(AVG(ST.jogadasa),0)+1
@@ -302,12 +302,12 @@ module.exports = {
                         (ROUND(AVG(ST.rlb),0)+1)*1.75
                     ELSE
                         0
-                END AS j_rl
+                END AS j_rl,
                 CASE 
                     WHEN ava01 = ${parceiro} OR ava02 = ${parceiro} THEN 
-                        AVG(ST.jogadasa),0)+1
+                        ROUND(AVG(ST.jogadasa),0)+1
                     WHEN avb01 = ${parceiro} OR avb02 = ${parceiro} THEN
-                        AVG(ST.jogadasb),0)+1
+                        ROUND(AVG(ST.jogadasb),0)+1
                     ELSE
                         0
                 END AS j_jogadas
