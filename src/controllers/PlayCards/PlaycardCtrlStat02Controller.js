@@ -18,39 +18,39 @@ module.exports = {
                 END AS pto,
                 CASE
                     WHEN (CT.placara > CT.placarb) THEN
-                        AVG(ST.ala)+1
+                        (AVG(ST.ala)+1)*1.5
                     WHEN (CT.placarb > CT.placara) THEN
-                        AVG(ST.alb)+1
+                        (AVG(ST.alb)+1)*1.5
                 END AS j_al,
                 CASE
                     WHEN (CT.placara > CT.placarb) THEN
-                        AVG(ST.asa)+1
+                        (AVG(ST.asa)+1)*1.25
                     WHEN (CT.placarb > CT.placara) THEN
-                        AVG(ST.asb)+1            
+                        (AVG(ST.asb)+1)*1.25
                 END AS j_as,    
                 CASE
                     WHEN (CT.placara > CT.placarb) THEN
-                        AVG(ST.cla)+1
+                        (AVG(ST.cla)+1)*2.5
                     WHEN (CT.placarb > CT.placara) THEN
-                        AVG(ST.clb)+1            
+                        (AVG(ST.clb)+1)*2.5
                 END AS j_cl,    
                 CASE
                     WHEN (CT.placara > CT.placarb) THEN
-                        AVG(ST.csa)+1
+                        (AVG(ST.csa)+1)*2
                     WHEN (CT.placarb > CT.placara) THEN
-                        AVG(ST.csb)+1            
+                        (AVG(ST.csb)+1)*2
                 END AS j_cs, 
                 CASE
                     WHEN (CT.placara > CT.placarb) THEN
-                        AVG(ST.rla)+1
+                        (AVG(ST.rla)+1)*1.75
                     WHEN (CT.placarb > CT.placara) THEN
-                        AVG(ST.rlb)+1            
+                        (AVG(ST.rlb)+1)*1.75
                 END AS j_rl, 
                 CASE
                     WHEN (CT.placara > CT.placarb) THEN
-                        AVG(ST.rsa)+1
+                        (AVG(ST.rsa)+1)*1.5
                     WHEN (CT.placarb > CT.placara) THEN
-                        AVG(ST.rsb)+1            
+                        (AVG(ST.rsb)+1)*1.5
                 END AS j_rs,
                 "V" AS resultado
             FROM playcardctrl CT
@@ -66,40 +66,40 @@ module.exports = {
                         SUM(ST.ptob)
                 END AS pto,
                 CASE
-                    WHEN (CT.placara < CT.placarb) THEN
-                        AVG(ST.ala)+1
-                    WHEN (CT.placarb < CT.placara) THEN
-                        AVG(ST.alb)+1
+                WHEN (CT.placara > CT.placarb) THEN
+                    (AVG(ST.ala)+1)*1.5
+                WHEN (CT.placarb > CT.placara) THEN
+                    (AVG(ST.alb)+1)*1.5
                 END AS j_al,
                 CASE
-                    WHEN (CT.placara < CT.placarb) THEN
-                        AVG(ST.asa)+1
-                    WHEN (CT.placarb < CT.placara) THEN
-                        AVG(ST.asb)+1            
+                    WHEN (CT.placara > CT.placarb) THEN
+                        (AVG(ST.asa)+1)*1.25
+                    WHEN (CT.placarb > CT.placara) THEN
+                        (AVG(ST.asb)+1)*1.25
                 END AS j_as,    
                 CASE
-                    WHEN (CT.placara < CT.placarb) THEN
-                        AVG(ST.cla)+1
-                    WHEN (CT.placarb < CT.placara) THEN
-                        AVG(ST.clb)+1           
+                    WHEN (CT.placara > CT.placarb) THEN
+                        (AVG(ST.cla)+1)*2.5
+                    WHEN (CT.placarb > CT.placara) THEN
+                        (AVG(ST.clb)+1)*2.5
                 END AS j_cl,    
                 CASE
-                    WHEN (CT.placara < CT.placarb) THEN
-                        AVG(ST.csa)+1
-                    WHEN (CT.placarb < CT.placara) THEN
-                        AVG(ST.csb)+1            
+                    WHEN (CT.placara > CT.placarb) THEN
+                        (AVG(ST.csa)+1)*2
+                    WHEN (CT.placarb > CT.placara) THEN
+                        (AVG(ST.csb)+1)*2
                 END AS j_cs, 
                 CASE
-                    WHEN (CT.placara < CT.placarb) THEN
-                        AVG(ST.rla)+1
-                    WHEN (CT.placarb < CT.placara) THEN
-                        AVG(ST.rlb)+1            
+                    WHEN (CT.placara > CT.placarb) THEN
+                        (AVG(ST.rla)+1)*1.75
+                    WHEN (CT.placarb > CT.placara) THEN
+                        (AVG(ST.rlb)+1)*1.75
                 END AS j_rl, 
                 CASE
-                    WHEN (CT.placara < CT.placarb) THEN
-                        AVG(ST.rsa)+1
-                    WHEN (CT.placarb < CT.placara) THEN
-                        AVG(ST.rsb)+1            
+                    WHEN (CT.placara > CT.placarb) THEN
+                        (AVG(ST.rsa)+1)*1.5
+                    WHEN (CT.placarb > CT.placara) THEN
+                        (AVG(ST.rsb)+1)*1.5
                 END AS j_rs,
                 "D" AS resultado
             FROM heroku_04ffe828244e38a.playcardctrl CT
