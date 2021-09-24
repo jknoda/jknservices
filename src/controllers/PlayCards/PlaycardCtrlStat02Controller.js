@@ -15,7 +15,7 @@ module.exports = {
                         SUM(ST.ptoa)
                     WHEN (CT.placarb > CT.placara) THEN
                         SUM(ST.ptob)
-                END AS pto,
+                END AS j_pto,
                 CASE
                     WHEN (CT.placara > CT.placarb) THEN
                         (AVG(ST.ala)+1)*1.5
@@ -70,7 +70,7 @@ module.exports = {
                         SUM(ST.ptoa)
                     WHEN (CT.placarb < CT.placara) THEN
                         SUM(ST.ptob)
-                END AS pto,
+                END AS j_pto,
                 CASE
                 WHEN (CT.placara < CT.placarb) THEN
                     (AVG(ST.ala)+1)*1.5
