@@ -3,7 +3,6 @@ const PCInd = require('../../models/PlayCards/PlaycardCtrlInd');
 const errDB = require('../../common/_sendErrorsDB');
 const sequelize = require("sequelize");
 const { QueryTypes } = require('sequelize');
-const { READUNCOMMITTED } = require('sequelize/types/lib/table-hints');
 
 module.exports = {
     async findallind(req,res){
@@ -130,24 +129,20 @@ module.exports = {
 
     async findind(req,res){
         const {jogador, parceiro, ano} = req.body;
-        let sqlAux = `
-            SET @redutor = 1;
-        `;
+        let redutor = 1;
         if (jogador == parceiro){
-            sqlAux = `
-                SET @redutor = 2;
-            `;
+            redutor = 2;
         }
         const sql = `
             SELECT 
-                (AVG(rodadas) * AVG(j_pto))/@redutor AS j_pto,
-                AVG(j_as)/@redutor AS j_as,
-                AVG(j_al)/@redutor AS j_al,
-                AVG(j_cs)/@redutor AS j_cs,
-                AVG(j_cl)/@redutor AS j_cl,
-                AVG(j_rs)/@redutor AS j_rs,
-                AVG(j_rl)/@redutor AS j_rl,
-                AVG(j_jogadas)/@redutor AS j_jogadas
+                (AVG(rodadas) * AVG(j_pto))/${redutor} AS j_pto,
+                AVG(j_as)/${redutor} AS j_as,
+                AVG(j_al)/${redutor} AS j_al,
+                AVG(j_cs)/${redutor} AS j_cs,
+                AVG(j_cl)/${redutor} AS j_cl,
+                AVG(j_rs)/${redutor} AS j_rs,
+                AVG(j_rl)/${redutor} AS j_rl,
+                AVG(j_jogadas)/${redutor} AS j_jogadas
             FROM
             (
             SELECT * FROM(SELECT 
