@@ -149,7 +149,8 @@ module.exports = {
                 AVG(j_cs) AS j_cs,
                 AVG(j_cl) AS j_cl,
                 AVG(j_rs) AS j_rs,
-                AVG(j_rl) AS j_rl    
+                AVG(j_rl) AS j_rl,    
+                AVG(j_jogadas) AS j_jogadas
             FROM
             (
             SELECT 
@@ -166,52 +167,60 @@ module.exports = {
                 END AS j_pto,
                 CASE 
                     WHEN ava01 = ${jogador} OR ava02 = ${jogador} THEN 
-                        ROUND(AVG(ST.asa),0)+1
+                        (ROUND(AVG(ST.asa),0)+1)*1.25
                     WHEN avb01 = ${jogador} OR avb02 = ${jogador} THEN
-                        ROUND(AVG(ST.asb),0)+1
+                        (ROUND(AVG(ST.asb),0)+1)+1.25
                     ELSE
                         0
                 END AS j_as,
                 CASE 
                     WHEN ava01 = ${jogador} OR ava02 = ${jogador} THEN 
-                        ROUND(AVG(ST.ala),0)+1
+                        (ROUND(AVG(ST.ala),0)+1)*1.5
                     WHEN avb01 = ${jogador} OR avb02 = ${jogador} THEN
-                        ROUND(AVG(ST.alb),0)+1
+                        (ROUND(AVG(ST.alb),0)+1)*1.5
                     ELSE
                         0
                 END AS j_al,
                 CASE 
                     WHEN ava01 = ${jogador} OR ava02 = ${jogador} THEN 
-                        ROUND(AVG(ST.csa),0)+1
+                        (ROUND(AVG(ST.csa),0)+1)*2
                     WHEN avb01 = ${jogador} OR avb02 = ${jogador} THEN
-                        ROUND(AVG(ST.csb),0)+1
+                        (ROUND(AVG(ST.csb),0)+1)*2
                     ELSE
                         0
                 END AS j_cs,
                 CASE 
                     WHEN ava01 = ${jogador} OR ava02 = ${jogador} THEN 
-                        ROUND(AVG(ST.cla),0)+1
+                        (ROUND(AVG(ST.cla),0)+1)*2.5
                     WHEN avb01 = ${jogador} OR avb02 = ${jogador} THEN
-                        ROUND(AVG(ST.clb),0)+1
+                        (ROUND(AVG(ST.clb),0)+1)*2.5
                     ELSE
                         0
                 END AS j_cl,
                 CASE 
                     WHEN ava01 = ${jogador} OR ava02 = ${jogador} THEN 
-                        ROUND(AVG(ST.rsa),0)+1
+                        (ROUND(AVG(ST.rsa),0)+1)+1.5
                     WHEN avb01 = ${jogador} OR avb02 = ${jogador} THEN
-                        ROUND(AVG(ST.rsb),0)+1
+                        (ROUND(AVG(ST.rsb),0)+1)*1.5
                     ELSE
                         0
                 END AS j_rs,
                 CASE 
                     WHEN ava01 = ${jogador} OR ava02 = ${jogador} THEN 
-                        ROUND(AVG(ST.rla),0)+1
+                        (ROUND(AVG(ST.rla),0)+1)*1.75
                     WHEN avb01 = ${jogador} OR avb02 = ${jogador} THEN
-                        ROUND(AVG(ST.rlb),0)+1
+                        (ROUND(AVG(ST.rlb),0)+1)*1.75
                     ELSE
                         0
                 END AS j_rl
+                CASE 
+                    WHEN ava01 = ${jogador} OR ava02 = ${jogador} THEN 
+                        ROUND(AVG(ST.jogadasa),0)+1
+                    WHEN avb01 = ${jogador} OR avb02 = ${jogador} THEN
+                        ROUND(AVG(ST.jogadasb),0)+1
+                    ELSE
+                        0
+                END AS j_jogadas
             FROM playcardctrl CT
             INNER JOIN playcardctrlstat ST ON CT.idf = ST.idf
             WHERE CT.inicial > 0 AND YEAR(CT.inicio) = ${ano}
@@ -230,7 +239,8 @@ module.exports = {
                 AVG(j_cs) AS j_cs,
                 AVG(j_cl) AS j_cl,
                 AVG(j_rs) AS j_rs,
-                AVG(j_rl) AS j_rl    
+                AVG(j_rl) AS j_rl,
+                AVG(j_jogadas) AS j_jogadas
             FROM
             (
             SELECT 
@@ -247,52 +257,60 @@ module.exports = {
                 END AS j_pto,
                 CASE 
                     WHEN ava01 = ${parceiro} OR ava02 = ${parceiro} THEN 
-                        ROUND(AVG(ST.asa),0)+1
+                        (ROUND(AVG(ST.asa),0)+1)*1.25
                     WHEN avb01 = ${parceiro} OR avb02 = ${parceiro} THEN
-                        ROUND(AVG(ST.asb),0)+1
+                        (ROUND(AVG(ST.asb),0)+1)*1.25
                     ELSE
                         0
                 END AS j_as,
                 CASE 
                     WHEN ava01 = ${parceiro} OR ava02 = ${parceiro} THEN 
-                        ROUND(AVG(ST.ala),0)+1
+                        (ROUND(AVG(ST.ala),0)+1)+1.5
                     WHEN avb01 = ${parceiro} OR avb02 = ${parceiro} THEN
-                        ROUND(AVG(ST.alb),0)+1
+                        (ROUND(AVG(ST.alb),0)+1)+1.5
                     ELSE
                         0
                 END AS j_al,
                 CASE 
                     WHEN ava01 = ${parceiro} OR ava02 = ${parceiro} THEN 
-                        ROUND(AVG(ST.csa),0)+1
+                        (ROUND(AVG(ST.csa),0)+1)*2
                     WHEN avb01 = ${parceiro} OR avb02 = ${parceiro} THEN
-                        ROUND(AVG(ST.csb),0)+1
+                        (ROUND(AVG(ST.csb),0)+1)*2
                     ELSE
                         0
                 END AS j_cs,
                 CASE 
                     WHEN ava01 = ${parceiro} OR ava02 = ${parceiro} THEN 
-                        ROUND(AVG(ST.cla),0)+1
+                        (ROUND(AVG(ST.cla),0)+1)*2.5
                     WHEN avb01 = ${parceiro} OR avb02 = ${parceiro} THEN
-                        ROUND(AVG(ST.clb),0)+1
+                        (ROUND(AVG(ST.clb),0)+1)*2.5
                     ELSE
                         0
                 END AS j_cl,
                 CASE 
                     WHEN ava01 = ${parceiro} OR ava02 = ${parceiro} THEN 
-                        ROUND(AVG(ST.rsa),0)+1
+                        (ROUND(AVG(ST.rsa),0)+1)+1.5
                     WHEN avb01 = ${parceiro} OR avb02 = ${parceiro} THEN
-                        ROUND(AVG(ST.rsb),0)+1
+                        (ROUND(AVG(ST.rsb),0)+1)+1.5
                     ELSE
                         0
                 END AS j_rs,
                 CASE 
                     WHEN ava01 = ${parceiro} OR ava02 = ${parceiro} THEN 
-                        ROUND(AVG(ST.rla),0)+1
+                        (ROUND(AVG(ST.rla),0)+1)*1.75
                     WHEN avb01 = ${parceiro} OR avb02 = ${parceiro} THEN
-                        ROUND(AVG(ST.rlb),0)+1
+                        (ROUND(AVG(ST.rlb),0)+1)*1.75
                     ELSE
                         0
                 END AS j_rl
+                CASE 
+                    WHEN ava01 = ${parceiro} OR ava02 = ${parceiro} THEN 
+                        AVG(ST.jogadasa),0)+1
+                    WHEN avb01 = ${parceiro} OR avb02 = ${parceiro} THEN
+                        AVG(ST.jogadasb),0)+1
+                    ELSE
+                        0
+                END AS j_jogadas
             FROM playcardctrl CT
             INNER JOIN playcardctrlstat ST ON CT.idf = ST.idf
             WHERE CT.inicial > 0 AND YEAR(CT.inicio) = ${ano}
