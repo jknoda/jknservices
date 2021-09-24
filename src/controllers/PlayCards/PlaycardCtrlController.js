@@ -78,8 +78,8 @@ module.exports = {
         else
         {
             sqlAux = `
-                AND ((ava01 = ${jogador} AND ava02 = ${parceiro}) OR (ava01 = ${parceiro} AND ava02 = ${jogador}))
-                OR ((avb01 = ${jogador} AND avb02 = ${parceiro}) OR (avb01 = ${parceiro} AND avb02 = ${jogador}))
+                AND (((ava01 = ${jogador} AND ava02 = ${parceiro}) OR (ava01 = ${parceiro} AND ava02 = ${jogador}))
+                OR ((avb01 = ${jogador} AND avb02 = ${parceiro}) OR (avb01 = ${parceiro} AND avb02 = ${jogador})))
             `
         }
         const sql = `
