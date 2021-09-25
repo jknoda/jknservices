@@ -1,5 +1,7 @@
 const PC = require('../../models/PlayCards/Playcard');
 const errDB = require('../../common/_sendErrorsDB');
+const sequelize = require("sequelize");
+const { QueryTypes } = require('sequelize');
 
 module.exports = {
     async update(req,res){
@@ -25,5 +27,21 @@ module.exports = {
             return errDB(res,err);
         });
         return res.json(retorno);
+    },
+
+    async findnow(req,res){
+        const {sala} = req.body;
+        const sql = `
+            SELECT * FROM playcard
+            ORDER BY data DESC
+            LIMIT 1;
+        `;
+        retorno = await PC.sequelize.query(sql, {
+            type: sequelize.QueryTypes.SELECT
+        }).catch(function(err){
+            return errDB(res,err);
+        });
+        return res.json(retorno);
     }
+
 }
