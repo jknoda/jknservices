@@ -24,8 +24,8 @@ module.exports = {
             (AVG(ST.rlb)+1)*1.75 AS rlb,
             (AVG(ST.rsb)+1)*1.5 AS rsb,
             AVG(ST.jogadasb)+1 AS jogadasb,
-            SUM(ST.ptoa) AS tptoa,
-            SUM(ST.ptob) AS tptob,
+            #SUM(ST.ptoa) AS tptoa,
+            #SUM(ST.ptob) AS tptob,
             CASE
                 WHEN SUM(ptoa) > SUM(ptob) THEN
                     "A"
