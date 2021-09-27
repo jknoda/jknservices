@@ -42,5 +42,11 @@ module.exports = function (server) {
     const PlaycardCtrlStat02Controller = require('../controllers/PlayCards/PlaycardCtrlStat02Controller');
     openApi.post('/playctrlstat/findallind', PlaycardCtrlStat02Controller.findallind);
     openApi.post('/playctrlstat/findind', PlaycardCtrlStat02Controller.findind);
+
+    const PlaycardCtrlStat03Controller = require('../controllers/PlayCards/PlaycardCtrlStat03Controller');
+    openApi.post('/playctrlstat/findallversus', PlaycardCtrlStat03Controller.findallversus);
+    openApi.post('/playctrlstat/findindversus', PlaycardCtrlStat03Controller.findindversus);
+
+    
 }
 
