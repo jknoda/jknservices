@@ -117,7 +117,7 @@ class PlaycardCtrlStat extends Model {
                 type: DataTypes.DATE,
                 allowNull: true
             },
-            rsultado: {
+            resultado: {
                 type: DataTypes.STRING,
                 allowNull: true
             }
