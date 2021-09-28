@@ -36,6 +36,12 @@ module.exports = {
     async findall(req,res){
         const{idf, ordem} = req.body;
         retorno = await PCCtrlStat.findAll({
+            attributes: ['idf', 'rodada', 'ptoa', 'ptob', 
+                'asa', 'asb', 'ala', 'alb', 'csa', 'csb', 
+                'cla', 'clb', 'rla', 'rlb', 'rsa', 'rsb', 
+                'vula', 'vulb', 'vulptoa', 'vulptob', 
+                'mortoa', 'mortob', 'batidaa', 'batidab',
+                'jogadasa', 'jogadasb', 'recall', 'data'],
             where: {
               idf
             },
