@@ -29,6 +29,7 @@ module.exports = function (server) {
     openApi.post('/playctrl/end', PlaycardCtrlController.end);
     openApi.post('/playctrl/findname', PlaycardCtrlController.findname);
     openApi.post('/playctrl/findlastgame', PlaycardCtrlController.findlastgame);
+    openApi.post('/playctrl/findgame', PlaycardCtrlController.findgame);
 
     const PlaycardCtrlStatController = require('../controllers/PlayCards/PlaycardCtrlStatController');
     openApi.post('/playctrlstat/create', PlaycardCtrlStatController.create);

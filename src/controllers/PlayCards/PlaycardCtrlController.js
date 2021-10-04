@@ -96,6 +96,23 @@ module.exports = {
             return errDB(res,err);
         });
         return res.json(retorno);
+    },
+
+    async findgame(req,res){
+        let {mes, ano} = req.body;
+        const sql = `
+            SELECT *
+            FROM playcardctrl AS CT
+            WHERE inicial > 0
+            AND MONTH(inicio) = ${mes} AND YEAR(inicio) = ${ano}
+            ORDER BY idf DESC;
+        `;
+        retorno = await PCCtrl.sequelize.query(sql, {
+            type: sequelize.QueryTypes.SELECT
+        }).catch(function(err){
+            return errDB(res,err);
+        });
+        return res.json(retorno);
     }
 
 
