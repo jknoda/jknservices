@@ -7,7 +7,24 @@ module.exports = {
     async findallversus(req,res){
         const {ano} = req.body;
         const sql = `
-        SELECT * FROM
+        SET @ano = ${ano};
+        SELECT 
+            ala / (ala + alb) AS ala,
+            asa / (asa + asb) AS asa,
+            cla / (cla + clb) AS cla,
+            csa / (csa + csb) AS csa,
+            rla / (rla + rlb) AS rla,
+            rsa / (rsa + rsb) AS rsa,    
+            jogadasa / (jogadasa + jogadasb) AS jogadasa,
+            alb / (ala + alb) AS alb,
+            asb / (asa + asb) AS asb,
+            clb / (cla + clb) AS clb,
+            csb / (csa + csb) AS csb,
+            rlb / (rla + rlb) AS rlb,
+            rsb / (rsa + rsb) AS rsb,
+            jogadasb / (jogadasa + jogadasb) AS jogadasb,
+            resultado
+        FROM
         (
                 SELECT 
                     #AVG(ST.ptoa) AS ptoa,
@@ -36,11 +53,9 @@ module.exports = {
                     END AS resultado
                 FROM playcardctrlstat ST
                 INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND YEAR(CT.inicio) = ${ano}
+                WHERE CT.inicial > 0 AND YEAR(CT.inicio) = @ano
                 GROUP BY ST.idf
-        ) JOG_A
         UNION
-        (
                 SELECT 
                     #AVG(ST.ptoa) AS ptoa,
                     (AVG(ST.alb)+1)*1.5 AS ala,
@@ -68,9 +83,9 @@ module.exports = {
                     END AS resultado
                 FROM playcardctrlstat ST
                 INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND YEAR(CT.inicio) = ${ano}
+                WHERE CT.inicial > 0 AND YEAR(CT.inicio) = @ano
                 GROUP BY ST.idf
-        )    
+        ) TODOS
         `;
         retorno = await PCIndGeral.sequelize.query(sql, {
             type: sequelize.QueryTypes.SELECT
@@ -83,229 +98,79 @@ module.exports = {
     async findindversus(req,res){
         const {dupla01a, dupla01b, dupla02a, dupla02b} = req.body;
         const sql = `
-        SELECT * FROM
+        SET @joga = ${dupla01a};
+        SET @jogb = ${dupla01b};
+        SET @adva = ${dupla02a};
+        SET @advb = ${dupla02b};
+        
+        SELECT 
+            ala / (ala + alb) AS ala,
+            asa / (asa + asb) AS asa,
+            cla / (cla + clb) AS cla,
+            csa / (csa + csb) AS csa,
+            rla / (rla + rlb) AS rla,
+            rsa / (rsa + rsb) AS rsa,    
+            jogadasa / (jogadasa + jogadasb) AS jogadasa,
+            alb / (ala + alb) AS alb,
+            asb / (asa + asb) AS asb,
+            clb / (cla + clb) AS clb,
+            csb / (csa + csb) AS csb,
+            rlb / (rla + rlb) AS rlb,
+            rsb / (rsa + rsb) AS rsb,
+            jogadasb / (jogadasa + jogadasb) AS jogadasb
+        FROM
+        (   
+            SELECT
+                    1 AS indice,
+                    (AVG(ala)+1)*1.5 AS ala, 
+                    (AVG(asa)+1)*1.25 AS asa, 
+                    (AVG(cla)+1)*2.5 AS cla, 
+                    (AVG(csa)+1)*2 AS csa, 
+                    (AVG(rla)+1)*1.75 AS rla, 
+                    (AVG(rsa)+1)*1.5 AS rsa, 
+                    (AVG(jogadasa)+1) AS jogadasa
+            FROM
+            (
+                SELECT /* DUPLA A COL A */ 
+                    ala, asa, cla, csa, rla, rsa, jogadasa
+                FROM playcardctrlstat ST
+                INNER JOIN playcardctrl CT ON CT.idf = ST.idf
+                WHERE CT.inicial > 0 AND (CT.ava01 = @joga OR CT.ava02 = @joga OR CT.ava01 = @jogab OR CT.ava02 = @jogab)
+                UNION
+                SELECT /* DUPLA A COL B */ 
+                    alb AS ala, asb AS asa, clb AS cla, csb AS csa, rlb AS rla, rsb AS rsa, jogadasb AS jogadasa
+                FROM playcardctrlstat ST
+                INNER JOIN playcardctrl CT ON CT.idf = ST.idf
+                WHERE CT.inicial > 0 AND (CT.avb01 = @joga OR CT.avb02 = @joga OR CT.avb01 = @jogab OR CT.avb02 = @jogab)
+            ) AUX_A
+        ) DUPLA_A
+        INNER JOIN
         (
-            SELECT 
-                #AVG(ptoa) AS ptoa,
-                AVG(asa) AS asa,
-                AVG(ala) AS ala,
-                AVG(csa) AS csa,
-                AVG(cla) AS cla,
-                AVG(rsa) AS rsa,
-                AVG(rla) AS rla,
-                AVG(jogadasa) AS jogadasa,
-                #AVG(ptob) AS ptob,
-                AVG(asb) AS asb,
-                AVG(alb) AS alb,
-                AVG(csb) AS csb,
-                AVG(clb) AS clb,
-                AVG(rsb) AS rsb,
-                AVG(rlb) AS rlb,
-                AVG(jogadasb) AS jogadasb
-            FROM (
-                SELECT /* JOGADOR A */
-                    #AVG(ptoa) AS ptoa,
-                    AVG(asa) AS asa,
-                    AVG(ala) AS ala,
-                    AVG(csa) AS csa,
-                    AVG(cla) AS cla,
-                    AVG(rsa) AS rsa,
-                    AVG(rla) AS rla,
-                    AVG(jogadasa) AS jogadasa,
-                    #AVG(ptob) AS ptob,
-                    AVG(asb) AS asb,
-                    AVG(alb) AS alb,
-                    AVG(csb) AS csb,
-                    AVG(clb) AS clb,
-                    AVG(rsb) AS rsb,
-                    AVG(rlb) AS rlb,
-                    AVG(jogadasb) AS jogadasb
-                FROM 
-                ((SELECT /* JOGADOR A COL A */ 
-                    #AVG(ST.ptoa) AS ptoa,
-                    (AVG(ST.ala)+1)*1.5 AS ala,
-                    (AVG(ST.asa)+1)*1.25 AS asa,
-                    (AVG(ST.cla)+1)*2.5 AS cla,
-                    (AVG(ST.csa)+1)*2 AS csa,
-                    (AVG(ST.rla)+1)*1.75 AS rla,
-                    (AVG(ST.rsa)+1)*1.5 AS rsa,
-                    AVG(ST.jogadasa)+1 AS jogadasa,
-                    #0 AS ptob, 
-                    0 AS alb, 0 AS asb, 0 AS clb, 0 AS csb, 0 AS rlb, 0 AS rsb, 0 AS jogadasb
+            SELECT
+                    1 AS indice,
+                    (AVG(alb)+1)*1.5 AS alb, 
+                    (AVG(asb)+1)*1.25 AS asb, 
+                    (AVG(clb)+1)*2.5 AS clb, 
+                    (AVG(csb)+1)*2 AS csb, 
+                    (AVG(rlb)+1)*1.75 AS rlb, 
+                    (AVG(rsb)+1)*1.5 AS rsb, 
+                    (AVG(jogadasb)+1) AS jogadasb
+            FROM
+            (
+                SELECT /* DUPLA B COL B */ 
+                    alb, asb, clb, csb, rlb, rsb, jogadasb
                 FROM playcardctrlstat ST
                 INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.ava01 = ${dupla01a} OR CT.ava02 = ${dupla01a}))
+                WHERE CT.inicial > 0 AND (CT.avb01 = @adva OR CT.avb02 = @adva OR CT.avb01 = @advab OR CT.avb02 = @advab)
                 UNION
-                (SELECT /* JOGADOR A COL B */
-                    #AVG(ST.ptob) AS ptoa,
-                    (AVG(ST.alb)+1)*1.5 AS ala,
-                    (AVG(ST.asb)+1)*1.25 AS asa,
-                    (AVG(ST.clb)+1)*2.5 AS cla,
-                    (AVG(ST.csb)+1)*2 AS csa,
-                    (AVG(ST.rlb)+1)*1.75 AS rla,
-                    (AVG(ST.rsb)+1)*1.5 AS rsa,
-                    AVG(ST.jogadasb)+1 AS jogadasa,
-                    #0 AS ptob, 
-                    0 AS alb, 0 AS asb, 0 AS clb, 0 AS csb, 0 AS rlb, 0 AS rsb, 0 AS jogadasb
+                SELECT /* DUPLA A COL A */ 
+                    ala AS alb, asa AS asb, cla AS clb, csa AS csb, rla AS rlb, rsa AS rsb, jogadasa AS jogadasb
                 FROM playcardctrlstat ST
                 INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.avb01 = ${dupla01a} OR CT.avb02 = ${dupla01a}))
-                ) AS JOGADOR_A
-                
-                UNION
-                
-                SELECT /* JOGADOR B */
-                    #AVG(ptoa) AS ptoa,
-                    AVG(asa) AS asa,
-                    AVG(ala) AS ala,
-                    AVG(csa) AS csa,
-                    AVG(cla) AS cla,
-                    AVG(rsa) AS rsa,
-                    AVG(rla) AS rla,
-                    AVG(jogadasa) AS jogadasa,
-                    #AVG(ptob) AS ptob,
-                    AVG(asb) AS asb,
-                    AVG(alb) AS alb,
-                    AVG(csb) AS csb,
-                    AVG(clb) AS clb,
-                    AVG(rsb) AS rsb,
-                    AVG(rlb) AS rlb,
-                    AVG(jogadasb) AS jogadasb
-                FROM 
-                ((SELECT /* JOGADOR B COL A */
-                    #AVG(ST.ptoa) AS ptoa,
-                    (AVG(ST.ala)+1)*1.5 AS ala,
-                    (AVG(ST.asa)+1)*1.25 AS asa,
-                    (AVG(ST.cla)+1)*2.5 AS cla,
-                    (AVG(ST.csa)+1)*2 AS csa,
-                    (AVG(ST.rla)+1)*1.75 AS rla,
-                    (AVG(ST.rsa)+1)*1.5 AS rsa,
-                    AVG(ST.jogadasa)+1 AS jogadasa,
-                    #0 AS ptob, 
-                    0 AS alb, 0 AS asb, 0 AS clb, 0 AS csb, 0 AS rlb, 0 AS rsb, 0 AS jogadasb
-                FROM playcardctrlstat ST
-                INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.ava01 = ${dupla01b} OR CT.ava02 = ${dupla01b})) 
-                UNION
-                (SELECT /* JOGADOR B COL B */
-                    #AVG(ST.ptob) AS ptoa,
-                    (AVG(ST.alb)+1)*1.5 AS ala,
-                    (AVG(ST.asb)+1)*1.25 AS asa,
-                    (AVG(ST.clb)+1)*2.5 AS cla,
-                    (AVG(ST.csb)+1)*2 AS csa,
-                    (AVG(ST.rlb)+1)*1.75 AS rla,
-                    (AVG(ST.rsb)+1)*1.5 AS rsa,
-                    AVG(ST.jogadasb)+1 AS jogadasa,
-                    #0 AS ptob, 
-                    0 AS alb, 0 AS asb, 0 AS clb, 0 AS csb, 0 AS rlb, 0 AS rsb, 0 AS jogadasb    
-                FROM playcardctrlstat ST
-                INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.avb01 = ${dupla01b} OR CT.avb02 = ${dupla01b}))
-                ) AS JOGADOR_B
-                
-                UNION /* UNIR COM ADVERSÁRIOS */
-                
-                SELECT /* ADVERSARIO A */
-                    #AVG(ptoa) AS ptoa,
-                    AVG(asa) AS asa,
-                    AVG(ala) AS ala,
-                    AVG(csa) AS csa,
-                    AVG(cla) AS cla,
-                    AVG(rsa) AS rsa,
-                    AVG(rla) AS rla,
-                    AVG(jogadasa) AS jogadasa,
-                    #AVG(ptob) AS ptob,
-                    AVG(asb) AS asb,
-                    AVG(alb) AS alb,
-                    AVG(csb) AS csb,
-                    AVG(clb) AS clb,
-                    AVG(rsb) AS rsb,
-                    AVG(rlb) AS rlb,
-                    AVG(jogadasb) AS jogadasb
-                FROM 
-                ((SELECT /* ADVERSARIO A COL A */
-                    #AVG(ST.ptoa) AS ptob,
-                    (AVG(ST.ala)+1)*1.5 AS alb,
-                    (AVG(ST.asa)+1)*1.25 AS asb,
-                    (AVG(ST.cla)+1)*2.5 AS clb,
-                    (AVG(ST.csa)+1)*2 AS csb,
-                    (AVG(ST.rla)+1)*1.75 AS rlb,
-                    (AVG(ST.rsa)+1)*1.5 AS rsb,
-                    AVG(ST.jogadasa)+1 AS jogadasb,
-                    #0 AS ptoa, 
-                    0 AS ala, 0 AS asa, 0 AS cla, 0 AS csa, 0 AS rla, 0 AS rsa, 0 AS jogadasa
-                FROM playcardctrlstat ST
-                INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.ava01 = ${dupla02a} OR CT.ava02 = ${dupla02a}))
-                UNION
-                (SELECT /* ADVERSARIO A COL B */
-                    #AVG(ST.ptob) AS ptob,
-                    (AVG(ST.alb)+1)*1.5 AS alb,
-                    (AVG(ST.asb)+1)*1.25 AS asb,
-                    (AVG(ST.clb)+1)*2.5 AS clb,
-                    (AVG(ST.csb)+1)*2 AS csb,
-                    (AVG(ST.rlb)+1)*1.75 AS rlb,
-                    (AVG(ST.rsb)+1)*1.5 AS rsb,
-                    AVG(ST.jogadasb)+1 AS jogadasb,
-                    #0 AS ptoa, 
-                    0 AS ala, 0 AS asa, 0 AS cla, 0 AS csa, 0 AS rla, 0 AS rsa, 0 AS jogadasa
-                FROM playcardctrlstat ST
-                INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.avb01 = ${dupla02a} OR CT.avb02 = ${dupla02a}))
-                ) AS ADVERSARIO_A
-                
-                UNION
-                
-                SELECT /* ADVERSARIO B */
-                    #AVG(ptoa) AS ptoa,
-                    AVG(asa) AS asa,
-                    AVG(ala) AS ala,
-                    AVG(csa) AS csa,
-                    AVG(cla) AS cla,
-                    AVG(rsa) AS rsa,
-                    AVG(rla) AS rla,
-                    AVG(jogadasa) AS jogadasa,
-                    #AVG(ptob) AS ptob,
-                    AVG(asb) AS asb,
-                    AVG(alb) AS alb,
-                    AVG(csb) AS csb,
-                    AVG(clb) AS clb,
-                    AVG(rsb) AS rsb,
-                    AVG(rlb) AS rlb,
-                    AVG(jogadasb) AS jogadasb
-                FROM 
-                ((SELECT  /* ADVERSARIO B COL A */
-                    #AVG(ST.ptoa) AS ptob,
-                    (AVG(ST.ala)+1)*1.5 AS alb,
-                    (AVG(ST.asa)+1)*1.25 AS asb,
-                    (AVG(ST.cla)+1)*2.5 AS clb,
-                    (AVG(ST.csa)+1)*2 AS csb,
-                    (AVG(ST.rla)+1)*1.75 AS rlb,
-                    (AVG(ST.rsa)+1)*1.5 AS rsb,
-                    AVG(ST.jogadasa)+1 AS jogadasb,
-                    #0 AS ptoa, 
-                    0 AS ala, 0 AS asa, 0 AS cla, 0 AS csa, 0 AS rla, 0 AS rsa, 0 AS jogadasa
-                FROM playcardctrlstat ST
-                INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.ava01 = ${dupla02b} OR CT.ava02 = ${dupla02b})) 
-                UNION
-                (SELECT /* ADVERSARIO B COL B */
-                    #AVG(ST.ptob) AS ptob,
-                    (AVG(ST.alb)+1)*1.5 AS alb,
-                    (AVG(ST.asb)+1)*1.25 AS asb,
-                    (AVG(ST.clb)+1)*2.5 AS clb,
-                    (AVG(ST.csb)+1)*2 AS csb,
-                    (AVG(ST.rlb)+1)*1.75 AS rlb,
-                    (AVG(ST.rsb)+1)*1.5 AS rsb,
-                    AVG(ST.jogadasb)+1 AS jogadasb,
-                    #0 AS ptoa, 
-                    0 AS ala, 0 AS asa, 0 AS cla, 0 AS csa, 0 AS rla, 0 AS rsa, 0 AS jogadasa
-                FROM playcardctrlstat ST
-                INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.avb01 = ${dupla02b} OR CT.avb02 = ${dupla02b}))
-                ) AS ADVERSARIO_B
-            ) AS JOG_ADV
-        ) AS TODOS
+                WHERE CT.inicial > 0 AND (CT.ava01 = @adva OR CT.ava02 = @adva OR CT.ava01 = @advab OR CT.ava02 = @advab)
+            ) AUX_B
+        ) DUPLA_B
+        ON DUPLA_A.indice = DUPLA_B.indice
         `;
         retorno = await PCIndGeral.sequelize.query(sql, {
             type: sequelize.QueryTypes.SELECT
