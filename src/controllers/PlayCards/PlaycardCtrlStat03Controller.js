@@ -86,22 +86,22 @@ module.exports = {
         SELECT * FROM
         (
             SELECT 
-                #SUM(ptoa) AS ptoa,
-                SUM(asa) AS asa,
-                SUM(ala) AS ala,
-                SUM(csa) AS csa,
-                SUM(cla) AS cla,
-                SUM(rsa) AS rsa,
-                SUM(rla) AS rla,
-                SUM(jogadasa) AS jogadasa,
-                #SUM(ptob) AS ptob,
-                SUM(asb) AS asb,
-                SUM(alb) AS alb,
-                SUM(csb) AS csb,
-                SUM(clb) AS clb,
-                SUM(rsb) AS rsb,
-                SUM(rlb) AS rlb,
-                SUM(jogadasb) AS jogadasb
+                #AVG(ptoa) AS ptoa,
+                AVG(asa) AS asa,
+                AVG(ala) AS ala,
+                AVG(csa) AS csa,
+                AVG(cla) AS cla,
+                AVG(rsa) AS rsa,
+                AVG(rla) AS rla,
+                AVG(jogadasa) AS jogadasa,
+                #AVG(ptob) AS ptob,
+                AVG(asb) AS asb,
+                AVG(alb) AS alb,
+                AVG(csb) AS csb,
+                AVG(clb) AS clb,
+                AVG(rsb) AS rsb,
+                AVG(rlb) AS rlb,
+                AVG(jogadasb) AS jogadasb
             FROM (
                 SELECT /* JOGADOR A */
                     #AVG(ptoa) AS ptoa,
