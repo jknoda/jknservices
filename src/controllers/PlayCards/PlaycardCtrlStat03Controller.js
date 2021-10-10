@@ -7,7 +7,6 @@ module.exports = {
     async findallversus(req,res){
         const {ano} = req.body;
         const sql = `
-        SET @ano = ${ano};
         SELECT 
             ala / (ala + alb) AS ala,
             asa / (asa + asb) AS asa,
@@ -53,7 +52,7 @@ module.exports = {
                     END AS resultado
                 FROM playcardctrlstat ST
                 INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND YEAR(CT.inicio) = @ano
+                WHERE CT.inicial > 0 AND YEAR(CT.inicio) = ${ano}
                 GROUP BY ST.idf
         UNION
                 SELECT 
@@ -83,7 +82,7 @@ module.exports = {
                     END AS resultado
                 FROM playcardctrlstat ST
                 INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND YEAR(CT.inicio) = @ano
+                WHERE CT.inicial > 0 AND YEAR(CT.inicio) = ${ano}
                 GROUP BY ST.idf
         ) TODOS
         `;
@@ -98,11 +97,6 @@ module.exports = {
     async findindversus(req,res){
         const {dupla01a, dupla01b, dupla02a, dupla02b} = req.body;
         const sql = `
-        SET @joga = ${dupla01a};
-        SET @jogb = ${dupla01b};
-        SET @adva = ${dupla02a};
-        SET @advb = ${dupla02b};
-        
         SELECT 
             ala / (ala + alb) AS ala,
             asa / (asa + asb) AS asa,
@@ -135,13 +129,13 @@ module.exports = {
                     ala, asa, cla, csa, rla, rsa, jogadasa
                 FROM playcardctrlstat ST
                 INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.ava01 = @joga OR CT.ava02 = @joga OR CT.ava01 = @jogab OR CT.ava02 = @jogab)
+                WHERE CT.inicial > 0 AND (CT.ava01 = ${dupla01a} OR CT.ava02 = ${dupla01a} OR CT.ava01 = ${dupla01b} OR CT.ava02 = ${dupla01b})
                 UNION
                 SELECT /* DUPLA A COL B */ 
                     alb AS ala, asb AS asa, clb AS cla, csb AS csa, rlb AS rla, rsb AS rsa, jogadasb AS jogadasa
                 FROM playcardctrlstat ST
                 INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.avb01 = @joga OR CT.avb02 = @joga OR CT.avb01 = @jogab OR CT.avb02 = @jogab)
+                WHERE CT.inicial > 0 AND (CT.avb01 = ${dupla01a} OR CT.avb02 = ${dupla01a} OR CT.avb01 = ${dupla01b} OR CT.avb02 = ${dupla01b})
             ) AUX_A
         ) DUPLA_A
         INNER JOIN
@@ -161,13 +155,13 @@ module.exports = {
                     alb, asb, clb, csb, rlb, rsb, jogadasb
                 FROM playcardctrlstat ST
                 INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.avb01 = @adva OR CT.avb02 = @adva OR CT.avb01 = @advab OR CT.avb02 = @advab)
+                WHERE CT.inicial > 0 AND (CT.avb01 = ${dupla02a} OR CT.avb02 = ${dupla02a} OR CT.avb01 = ${dupla02b} OR CT.avb02 = ${dupla02b})
                 UNION
                 SELECT /* DUPLA A COL A */ 
                     ala AS alb, asa AS asb, cla AS clb, csa AS csb, rla AS rlb, rsa AS rsb, jogadasa AS jogadasb
                 FROM playcardctrlstat ST
                 INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-                WHERE CT.inicial > 0 AND (CT.ava01 = @adva OR CT.ava02 = @adva OR CT.ava01 = @advab OR CT.ava02 = @advab)
+                WHERE CT.inicial > 0 AND (CT.ava01 = ${dupla02a} OR CT.ava02 = ${dupla02a} OR CT.ava01 = ${dupla02b} OR CT.ava02 = ${dupla02b})
             ) AUX_B
         ) DUPLA_B
         ON DUPLA_A.indice = DUPLA_B.indice
