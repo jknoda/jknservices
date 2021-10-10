@@ -7,36 +7,70 @@ module.exports = {
     async findallversus(req,res){
         const {ano} = req.body;
         const sql = `
-        SELECT 
-            #AVG(ST.ptoa) AS ptoa,
-            (AVG(ST.ala)+1)*1.5 AS ala,
-            (AVG(ST.asa)+1)*1.25 AS asa,
-            (AVG(ST.cla)+1)*2.5 AS cla,
-            (AVG(ST.csa)+1)*2 AS csa,
-            (AVG(ST.rla)+1)*1.75 AS rla,
-            (AVG(ST.rsa)+1)*1.5 AS rsa,
-            AVG(ST.jogadasa)+1 AS jogadasa,
-            #AVG(ST.ptob) AS ptob,
-            (AVG(ST.alb)+1)*1.5 AS alb,
-            (AVG(ST.asb)+1)*1.25 AS asb,
-            (AVG(ST.clb)+1)*2.5 AS clb,
-            (AVG(ST.csb)+1)*2 AS csb,
-            (AVG(ST.rlb)+1)*1.75 AS rlb,
-            (AVG(ST.rsb)+1)*1.5 AS rsb,
-            AVG(ST.jogadasb)+1 AS jogadasb,
-            #SUM(ST.ptoa) AS tptoa,
-            #SUM(ST.ptob) AS tptob,
-            CASE
-                WHEN SUM(ptoa) > SUM(ptob) THEN
-                    "A"
-                ELSE
-                    "B"
-            END AS resultado
-        FROM playcardctrlstat ST
-        INNER JOIN playcardctrl CT ON CT.idf = ST.idf
-        WHERE CT.inicial > 0 AND YEAR(CT.inicio) = ${ano}
-        GROUP BY ST.idf
-    
+        SELECT * FROM
+        (
+                SELECT 
+                    #AVG(ST.ptoa) AS ptoa,
+                    (AVG(ST.ala)+1)*1.5 AS ala,
+                    (AVG(ST.asa)+1)*1.25 AS asa,
+                    (AVG(ST.cla)+1)*2.5 AS cla,
+                    (AVG(ST.csa)+1)*2 AS csa,
+                    (AVG(ST.rla)+1)*1.75 AS rla,
+                    (AVG(ST.rsa)+1)*1.5 AS rsa,
+                    AVG(ST.jogadasa)+1 AS jogadasa,
+                    #AVG(ST.ptob) AS ptob,
+                    (AVG(ST.alb)+1)*1.5 AS alb,
+                    (AVG(ST.asb)+1)*1.25 AS asb,
+                    (AVG(ST.clb)+1)*2.5 AS clb,
+                    (AVG(ST.csb)+1)*2 AS csb,
+                    (AVG(ST.rlb)+1)*1.75 AS rlb,
+                    (AVG(ST.rsb)+1)*1.5 AS rsb,
+                    AVG(ST.jogadasb)+1 AS jogadasb,
+                    #SUM(ST.ptoa) AS tptoa,
+                    #SUM(ST.ptob) AS tptob,
+                    CASE
+                        WHEN SUM(ptoa) > SUM(ptob) THEN
+                            "A"
+                        ELSE
+                            "B"
+                    END AS resultado
+                FROM playcardctrlstat ST
+                INNER JOIN playcardctrl CT ON CT.idf = ST.idf
+                WHERE CT.inicial > 0 AND YEAR(CT.inicio) = ${ano}
+                GROUP BY ST.idf
+        ) JOG_A
+        UNION
+        (
+                SELECT 
+                    #AVG(ST.ptoa) AS ptoa,
+                    (AVG(ST.alb)+1)*1.5 AS ala,
+                    (AVG(ST.asb)+1)*1.25 AS asa,
+                    (AVG(ST.clb)+1)*2.5 AS cla,
+                    (AVG(ST.csb)+1)*2 AS csa,
+                    (AVG(ST.rlb)+1)*1.75 AS rla,
+                    (AVG(ST.rsb)+1)*1.5 AS rsa,
+                    AVG(ST.jogadasb)+1 AS jogadasa,
+                    #AVG(ST.ptob) AS ptob,
+                    (AVG(ST.ala)+1)*1.5 AS alb,
+                    (AVG(ST.asa)+1)*1.25 AS asb,
+                    (AVG(ST.cla)+1)*2.5 AS clb,
+                    (AVG(ST.csa)+1)*2 AS csb,
+                    (AVG(ST.rla)+1)*1.75 AS rlb,
+                    (AVG(ST.rsa)+1)*1.5 AS rsb,
+                    AVG(ST.jogadasa)+1 AS jogadasb,
+                    #SUM(ST.ptob) AS tptoa,
+                    #SUM(ST.ptoa) AS tptob,
+                    CASE
+                        WHEN SUM(ptob) > SUM(ptoa) THEN
+                            "A"
+                        ELSE
+                            "B"
+                    END AS resultado
+                FROM playcardctrlstat ST
+                INNER JOIN playcardctrl CT ON CT.idf = ST.idf
+                WHERE CT.inicial > 0 AND YEAR(CT.inicio) = ${ano}
+                GROUP BY ST.idf
+        )    
         `;
         retorno = await PCIndGeral.sequelize.query(sql, {
             type: sequelize.QueryTypes.SELECT
