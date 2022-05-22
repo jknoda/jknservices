@@ -7,9 +7,13 @@ module.exports = {
     async create(req,res){
         const {idf, rodada} = req.body;
         const data = new Date();
-        const ptoa = ptob = asa = asb = ala = alb = csa = csb = cla = clb = rla = rlb = rsa = rsb = vula = vulb = vulptoa = vulptob = mortoa = mortob = batidaa = batidab = jogadasa = jogadasb = recall = 0;
+        const ptoa = ptob = asa = asb = ala = alb = csa = csb = cla = clb = rla = rlb = rsa = rsb =
+             vula = vulb = vulptoa = vulptob = mortoa = mortob = 
+             batidaa = batidab = jogadasa = jogadasb = recall = 0;
         //console.log("nova rodada");
-        await PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, rla, rlb, rsa, rsb, vula, vulb, vulptoa, vulptob, mortoa, mortob, batidaa, batidab, jogadasa, jogadasb, recall, data})
+        await PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, 
+            rla, rlb, rsa, rsb, vula, vulb, vulptoa, vulptob, mortoa, mortob, 
+            batidaa, batidab, jogadasa, jogadasb, recall, data, estatistica})
         .catch(function(err){
             return errDB(res,err);
         });
@@ -41,7 +45,7 @@ module.exports = {
                 'cla', 'clb', 'rla', 'rlb', 'rsa', 'rsb', 
                 'vula', 'vulb', 'vulptoa', 'vulptob', 
                 'mortoa', 'mortob', 'batidaa', 'batidab',
-                'jogadasa', 'jogadasb', 'recall', 'data'],
+                'jogadasa', 'jogadasb', 'recall', 'data', 'estatistica'],
             where: {
               idf
             },

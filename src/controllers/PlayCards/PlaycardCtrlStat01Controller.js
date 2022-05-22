@@ -56,6 +56,7 @@ module.exports = {
                 ST.mortoa  AS 'morto', 
                 ST.batidaa AS 'batida',
                 ST.data ,
+                ST.estatistica,
                 (CASE 
                     WHEN CT.ava01 = ${jogador} THEN 1
                     ELSE 2
@@ -82,6 +83,7 @@ module.exports = {
                 ST.mortob  AS 'morto', 
                 ST.batidab AS 'batida',
                 ST.data,
+                ST.estatistica,
                 (CASE 
                     WHEN CT.avb01 = ${jogador} THEN 3
                     ELSE 4
