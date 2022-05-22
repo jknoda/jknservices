@@ -21,14 +21,17 @@ module.exports = {
     },
 
     async update(req,res){
-        const {idf, rodada, dupla, tipo, valor} = req.body;
-        const campo = "`" + tipo + dupla + "`";
+        const {idf, rodada, dupla, tipo, valor, estatistica} = req.body;
+        let campo = "`" + tipo + dupla + "`";
         //console.log(req.body,campo);
-        const sql = `
-            UPDATE playcardctrlstat
-            SET ${campo} = ${campo} + ${valor}
-            WHERE idf = ${idf} AND rodada = ${rodada}; 
-        `;
+        let sql =   `   UPDATE playcardctrlstat`;
+        if (tipo == 'ESTATISTICA'){
+            sql += `    SET estatisca = ${estatistica}`;
+        }
+        else {
+            sql +=  `   SET ${campo} = ${campo} + ${valor}`;
+        }
+        sql +=  `   WHERE idf = ${idf} AND rodada = ${rodada}; `;
         PCCtrlStat.sequelize.query(sql, {
             type: sequelize.QueryTypes.UPDATE
         }).catch(function(err){
