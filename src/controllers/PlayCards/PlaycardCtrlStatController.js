@@ -10,7 +10,8 @@ module.exports = {
         const ptoa = ptob = asa = asb = ala = alb = csa = csb = cla = clb = rla = rlb = rsa = rsb =
              vula = vulb = vulptoa = vulptob = mortoa = mortob = 
              batidaa = batidab = jogadasa = jogadasb = recall = 0;
-        //console.log("nova rodada");
+        const estatistica = "";
+        console.log("nova rodada ",idf);
         await PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, 
             rla, rlb, rsa, rsb, vula, vulb, vulptoa, vulptob, mortoa, mortob, 
             batidaa, batidab, jogadasa, jogadasb, recall, data, estatistica})
@@ -25,12 +26,8 @@ module.exports = {
         let campo = "`" + tipo + dupla + "`";
         //console.log(req.body,campo);
         let sql =   `   UPDATE playcardctrlstat`;
-        if (tipo == 'ESTATISTICA'){
-            sql += `    SET estatisca = ${estatistica}`;
-        }
-        else {
-            sql +=  `   SET ${campo} = ${campo} + ${valor}`;
-        }
+        sql += `    SET estatisca = ${estatistica}, `;
+        sql +=  `   ${campo} = ${campo} + ${valor}`;
         sql +=  `   WHERE idf = ${idf} AND rodada = ${rodada}; `;
         PCCtrlStat.sequelize.query(sql, {
             type: sequelize.QueryTypes.UPDATE
