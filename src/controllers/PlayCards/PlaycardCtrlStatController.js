@@ -23,9 +23,9 @@ module.exports = {
     async update(req,res){
         const {idf, rodada, dupla, tipo, valor, estatistica} = req.body;
         let campo = "`" + tipo + dupla + "`";
-        //console.log(req.body,campo);
+        console.log("UPDATE ",req.body,campo);
         let sql =   `   UPDATE playcardctrlstat`;
-        sql += `    SET estatistica = ${estatistica}, `;
+        sql += `    SET estatistica = '${estatistica}', `;
         sql +=  `   ${campo} = ${campo} + ${valor}`;
         sql +=  `   WHERE idf = ${idf} AND rodada = ${rodada}; `;
         PCCtrlStat.sequelize.query(sql, {
