@@ -5,13 +5,12 @@ const { QueryTypes } = require('sequelize');
 
 module.exports = {
     async create(req,res){
-        const {idf, rodada} = req.body;
+        const {idf, rodada, estatistica} = req.body;
         const data = new Date();
         const ptoa = ptob = asa = asb = ala = alb = csa = csb = cla = clb = rla = rlb = rsa = rsb =
              vula = vulb = vulptoa = vulptob = mortoa = mortob = 
              batidaa = batidab = jogadasa = jogadasb = recall = 0;
-        const estatistica = "";
-        console.log("nova rodada ",idf);
+        //console.log("nova rodada ",idf);
         await PCCtrlStat.create({idf, rodada, ptoa, ptob, asa, asb, ala, alb, csa, csb, cla, clb, 
             rla, rlb, rsa, rsb, vula, vulb, vulptoa, vulptob, mortoa, mortob, 
             batidaa, batidab, jogadasa, jogadasb, recall, data, estatistica})
@@ -26,7 +25,7 @@ module.exports = {
         let campo = "`" + tipo + dupla + "`";
         //console.log(req.body,campo);
         let sql =   `   UPDATE playcardctrlstat`;
-        sql += `    SET estatisca = ${estatistica}, `;
+        sql += `    SET estatistica = ${estatistica}, `;
         sql +=  `   ${campo} = ${campo} + ${valor}`;
         sql +=  `   WHERE idf = ${idf} AND rodada = ${rodada}; `;
         PCCtrlStat.sequelize.query(sql, {
